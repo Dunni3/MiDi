@@ -47,17 +47,9 @@ if __name__ == "__main__":
     end = time.time()
     sampling_time = end - start
 
-
-
-
     sampled_rdkit_mols = [ m.rdkit_mol for m in sampled_mols ]
 
     # write sampled_rdkit_mols to output_file
     with open(args.output_file, 'wb') as f:
-        pickle.dump(sampled_rdkit_mols, f)
-
-    # write sampling time to output_file
-    sampling_time_file = args.output_file.parent / f'{args.output_file.stem}_sampling_time.pkl'
-    with open(sampling_time_file, 'wb') as f:
-        pickle.dump({'sampling_time': sampling_time, 'n_mols': args.n_mols}, f)
+        pickle.dump((sampled_rdkit_mols, sampling_time), f)
 

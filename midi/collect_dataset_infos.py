@@ -56,6 +56,18 @@ def main(cfg: omegaconf.DictConfig):
         cfg, _ = get_resume(cfg, dataset_infos, train_smiles, cfg.general.resume, test=False)
 
     # utils.create_folders(cfg)
+    import pickle
+    import sys
+    from pathlib import Path
+    cwd = Path.cwd()
+    midi_dir = cwd.parent.parent.parent
+    dataset_infos_dir = midi_dir / 'model_reconstruction'
+    dataset_infos_dir.mkdir(exist_ok=True)
+    print('saving dataset info to: ', dataset_infos_dir.resolve())
+    dataset_infos_file = dataset_infos_dir / f'{dataset_config.name}_infos.pkl'
+    with open(dataset_infos_file, 'wb') as f:
+        pickle.dump(dataset_infos, f)
+    sys.exit()
 
     model = FullDenoisingDiffusion(cfg=cfg, dataset_infos=dataset_infos, train_smiles=train_smiles)
 
